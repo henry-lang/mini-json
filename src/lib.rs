@@ -30,6 +30,11 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let json = r#"{"Paris": "France"}"#.parse::<Json>();
+        let json = r#"{"Paris": "France"}"#.parse::<Json>().unwrap();
+        let values = match json {
+            Json::Object(values) => values,
+            _ => unreachable!(),
+        };
+        assert!(values.get("todo").is_some());
     }
 }

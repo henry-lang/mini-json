@@ -1,13 +1,14 @@
 use std::fmt;
-use std::iter::{Enumerate, Peekable};
-use std::str::Chars;
+use std::iter::Peekable;
+use std::str::CharIndices;
 
 use crate::{Json, Map};
 
 pub struct Parser<'a> {
-    iter: Peekable<Enumerate<Chars<'a>>>,
+    iter: Peekable<CharIndices<'a>>,
 }
 
+#[derive(Debug)]
 pub enum ParseJsonError {
     Expected(char, char),
     EndOfString(char),
@@ -31,7 +32,7 @@ type JsonResult = Result<Json, ParseJsonError>;
 impl<'a> Parser<'a> {
     pub fn new(source: &'a str) -> Self {
         Self {
-            iter: source.chars().enumerate().peekable(),
+            iter: source.char_indices().peekable(),
         }
     }
 
